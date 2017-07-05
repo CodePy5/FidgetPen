@@ -7,7 +7,13 @@
         <script src="jquery.min.js"></script>
 		<script> 
 			$(document).ready(function(){
-				var clicks=0;
+				var storage  = window.localStorage;
+				if(storage.getItem("score")>=0){
+					var clicks = parseInt(storage.getItem("score"));
+					$("#clicks").html("Clicks: " + clicks);
+				}else{
+					var clicks=0;
+				}				
 				var half = $(window).width()/2;
                 var qPen = $("#pen").width()/4;
                 $("#clickLeg").css("left", half+qPen);
@@ -26,6 +32,7 @@
 					$(".movable").animate({marginTop: '-=10vh'}, "fast", function(){click2.play();});
                     //click2.play();
                     clicks=clicks+1;
+					storage.setItem("score", clicks);
                     $("#clicks").html("Clicks: " + clicks);
 				});
 			});
