@@ -8,7 +8,7 @@
 		<script> 
 			$(document).ready(function(){
 				var storage  = window.localStorage;
-				if(storage.getItem("score")>=0){
+				if(storage.getItem("score")!=null){
 					var clicks = parseInt(storage.getItem("score"));
 					$("#clicks").html("Clicks: " + clicks);
 				}else{
