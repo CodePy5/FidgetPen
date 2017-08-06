@@ -7,7 +7,14 @@
         <script src="jquery.min.js"></script>
 		<script> 
 			$(document).ready(function(){
-				var clicks=0;
+				var go = true;
+				var storage  = window.localStorage;
+				if(storage.getItem("score")!=null){
+					var clicks = parseInt(storage.getItem("score"));
+					$("#clicks").html("Clicks: " + clicks);
+				}else{
+					var clicks=0;
+				}				
 				var half = $(window).width()/2;
                 var qPen = $("#pen").width()/4;
                 $("#clickLeg").css("left", half+qPen);
@@ -19,14 +26,18 @@
 					$("#clicker").css("left", half+qPen+$("#clickLeg").width());
                 });
 				$(".pen").click(function(){
-                    var click1 = document.getElementById("click1");
-                    var click2 = document.getElementById("click2");
-					$(".movable").animate({marginTop: '+=10vh'}, "slow", function(){click1.play();});
-                    //click1.play();
-					$(".movable").animate({marginTop: '-=10vh'}, "fast", function(){click2.play();});
-                    //click2.play();
-                    clicks=clicks+1;
-                    $("#clicks").html("Clicks: " + clicks);
+					if (go){
+						go = false;
+                    	var click1 = document.getElementById("click1");
+                    	var click2 = document.getElementById("click2");
+						$(".movable").animate({marginTop: '+=10vh'}, "slow", function(){click1.play();});
+                    	//click1.play();
+						$(".movable").animate({marginTop: '-=10vh'}, "fast", function(){click2.play(); go=true;});
+                    	//click2.play();
+                    	clicks=clicks+1;
+						storage.setItem("score", clicks);
+                    	$("#clicks").html("Clicks: " + clicks);
+					}
 				});
 			});
 		</script>
@@ -84,7 +95,7 @@
 			<div id="pen" class="pen"></div>
 			<div id="clickLeg" class="pen movable"></div>
 			<div id="clicker" class="pen movable"></div>
-			<div id="codepy">Fidget Pen<br>CodePy Media<br>v0.1</div>
+			<div id="codepy">Fidget Pen<br>CodePy Media<br>v1.0.2</div>
 			<div id="clicks">Clicks: 0</div>
 		</div>
         <audio src="click1.mp3" id="click1">
